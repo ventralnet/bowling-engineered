@@ -16,7 +16,7 @@ In linux/MacOSX/Solaris...
 
 java -classpath ./bowling-scorer.jar:../config:../lib/log4j-1.2.15.jar com.kirkley.bowling.ui.ConsoleUI <input_string>
 
-You can also execute this app by using the ant build target 'run' and passing in the formatString java property
+You can also execute this app by using the ant build target 'run' and passing in the frameString java property
 
 C:\workspaces\SANDBOX\BOWLING-ENGINEERED>ant run -DframeString=X-X-X-X-X-X-X-X-X-000
 Buildfile: build.xml
