@@ -1,0 +1,143 @@
+Author: Matthew Kirkley
+e-mail: matt.kirkley@gmail.com
+
+This is an implementation of scoring a 10 pin game of bowling given a valid frame set of game play. I consider
+this to be the engineered version.  This version includes an object oriented design as well as rigorous unit
+testing.  Also the ability to run a test coverage report has been included.
+
+Once built, the application can be run with the following.  This assumes you are currently in the dist/ folder of the project (this is 
+where the jar build target will place the target executable)
+
+In windows...
+
+java -classpath .\bowling-scorer.jar;..\config;..\lib\log4j-1.2.15.jar com.kirkley.bowling.ui.ConsoleUI <input_string>
+
+In linux/MacOSX/Solaris...
+
+java -classpath ./bowling-scorer.jar:../config:../lib/log4j-1.2.15.jar com.kirkley.bowling.ui.ConsoleUI <input_string>
+
+You can also execute this app by using the ant build target 'run' and passing in the formatString java property
+
+C:\workspaces\SANDBOX\BOWLING-ENGINEERED>ant run -DframeString=X-X-X-X-X-X-X-X-X-000
+Buildfile: build.xml
+
+run:
+     [echo] Executing with command line argument: X-X-X-X-X-X-X-X-X-000
+     [java] 240
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+Build targets:
+
+Notable build targets are as follows (the run target is described above)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; The test target will run the junit tests, as well as run a coverage report.  The coverage report
+;; will be displayed as html.  After running the test target, the report can be found here
+;; <project home>\test-results\index.html
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+$ ant test
+Buildfile: build.xml
+
+compile:
+     [echo] Compiling *.java in src
+    [javac] Compiling 1 source file to C:\workspaces\SANDBOX\BOWLING-ENGINEERED\scratch\classes
+
+jar:
+      [jar] Building jar: C:\workspaces\SANDBOX\BOWLING-ENGINEERED\dist\bowling-scorer.jar
+
+compile_tests:
+    [mkdir] Created dir: C:\workspaces\SANDBOX\BOWLING-ENGINEERED\scratch\test\classes
+    [javac] Compiling 12 source files to C:\workspaces\SANDBOX\BOWLING-ENGINEERED\scratch\test\classes
+
+test:
+[cobertura-instrument] Cobertura 1.9.4.1 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+[cobertura-instrument] Instrumenting 14 files to C:\workspaces\SANDBOX\BOWLING-ENGINEERED\scratch\instrumentation
+[cobertura-instrument] Cobertura: Saved information on 14 classes.
+[cobertura-instrument] Instrument time: 88ms
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+    [junit] Flushing results...
+    [junit] Flushing results done
+    [junit] Cobertura: Loaded information on 14 classes.
+    [junit] Cobertura: Saved information on 14 classes.
+[cobertura-report] Cobertura 1.9.4.1 - GNU GPL License (NO WARRANTY) - See COPYRIGHT file
+[cobertura-report] Cobertura: Loaded information on 14 classes.
+[cobertura-report] Report time: 168ms
+
+BUILD SUCCESSFUL
+Total time: 4 seconds
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; The default target will create the distrubutable jar file. The following dependencies are necessary
+;; (1) log4j-1.2.15.jar
+;; (2) The file log4j.xml must be in the classpath
+;; The jar file will be located in the dist/ folder of the project
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+$ ant
+Buildfile: build.xml
+
+compile:
+     [echo] Compiling *.java in src
+    [mkdir] Created dir: C:\workspaces\SANDBOX\BOWLING-ENGINEERED\scratch\classes
+    [javac] Compiling 14 source files to C:\workspaces\SANDBOX\BOWLING-ENGINEERED\scratch\classes
+
+jar:
+    [mkdir] Created dir: C:\workspaces\SANDBOX\BOWLING-ENGINEERED\dist
+      [jar] Building jar: C:\workspaces\SANDBOX\BOWLING-ENGINEERED\dist\bowling-scorer.jar
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; The clean target will clean build artifacts as well as distributables previously built.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+$ ant clean
+Buildfile: build.xml
+
+clean:
+   [delete] Deleting directory C:\workspaces\SANDBOX\BOWLING-ENGINEERED\scratch
+   [delete] Deleting directory C:\workspaces\SANDBOX\BOWLING-ENGINEERED\test-results
+   [delete] Deleting directory C:\workspaces\SANDBOX\BOWLING-ENGINEERED\dist
+
+BUILD SUCCESSFUL
+Total time: 0 seconds
+
+
