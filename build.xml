@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+	 Main build file for the bowling score calculator
+     Author:    Matthew Kirkley
+   -->
+
+<project name="bowling" default="jar" basedir=".">
+
+	<!-- ultimate dist location where the compiled jar ends up -->
+	<property name="distribution.folder" value="dist" />
+
+	<!-- config folder for such things as log4j config -->
+	<property name="config.folder" value="config" />
+
+	<property name="destination.jar.filename" value="bowling-scorer.jar" />
+
+	<!-- main entry class of the application -->
+	<property name="executable.class" value="com.kirkley.bowling.ui.ConsoleUI" />
+
+	<!-- scatch location to temporarily put compiled classes. -->
+	<property name="scratch.folder" value="scratch" />
+	<property name="class.scratch.folder" value="${scratch.folder}/classes" />
+	<property name="test.class.scratch.folder" value="${scratch.folder}/test/classes" />
+
+	<!-- source folder containing java source to be compiled -->
+	<property name="src.folder" value="src" />
+	<property name="test.src.folder" value="test" />
+
+	<property name="cobertura.folder" value="lib/test/cobertura-1.9.4.1" />
+
+	<path id="compile_time_classpath">
+		<fileset dir="lib" includes="**/*.jar" />
+	</path>
+
+	<path id="runtime_classpath">
+		<path refid="compile_time_classpath" />
+		<pathelement path="config" />
+		<fileset dir="${distribution.folder}" includes="*.jar" />
+	</path>
+
+	<path id="compile_time_test_classpath">
+		<path refid="compile_time_classpath" />
+		<path refid="runtime_classpath" />
+	</path>
+
+	<path id="test_runtime_classpath">
+		<path refid="compile_time_test_classpath" />
+		<fileset dir="${test.class.scratch.folder}"/>
+	</path>
+
+	<path id="cobertura_classpath">
+		<fileset dir="${cobertura.folder}" includes="**/*.jar" />
+	</path>
+
+	<taskdef classpathref="cobertura_classpath" resource="tasks.properties" />
+
+
+
+	<target name="compile">
+		<echo>Compiling *.java in ${src.folder}</echo>
+		<mkdir dir="${class.scratch.folder}" />
+		<javac srcdir="${src.folder}" destdir="${class.scratch.folder}" debug="true" debuglevel="lines,vars,source" classpathref="compile_time_classpath" />
+	</target>
+
+	<target name="compile_tests" depends="jar">
+		<mkdir dir="${test.class.scratch.folder}" />
+		<javac destdir="${test.class.scratch.folder}" srcdir="${test.src.folder}" debug="true" debuglevel="lines,vars,source" classpathref="compile_time_test_classpath" />
+	</target>
+
+	<target name="test" depends="compile_tests">
+		<delete file="${scratch.folder}/instrumentation/cobertua.ser"/>
+		<cobertura-instrument datafile="${scratch.folder}/instrumentation/cobertua.ser" todir="${scratch.folder}/instrumentation">
+			<fileset dir="${class.scratch.folder}"/>
+		</cobertura-instrument>
+
+		<junit fork="yes" haltonerror="true" dir="${test.class.scratch.folder}">
+			
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${scratch.folder}/instrumentation/cobertua.ser"/>
+			
+			<classpath location="${scratch.folder}/instrumentation" />
+			<classpath location="${class.scratch.folder}"/>
+			<classpath location="${test.class.scratch.folder}"/>
+			<classpath refid="cobertura_classpath"/>
+			
+			<formatter type="xml"/>
+			<batchtest todir="${scratch.folder}/instrumentation">
+				<fileset dir="${test.src.folder}">
+					<include name="**/*Test.java" />
+					<exclude name="**/BaseTest.java"/>
+				</fileset>
+			</batchtest>			
+		</junit>
+		<cobertura-report datafile="${scratch.folder}/instrumentation/cobertua.ser" srcdir="${src.folder}" destdir="test-results" />
+	</target>
+
+	<target name="jar" depends="compile">
+		<mkdir dir="${distribution.folder}" />
+		<jar destfile="${distribution.folder}/${destination.jar.filename}" basedir="${class.scratch.folder}" excludes="**/test/**">
+		</jar>
+	</target>
+
+	<target name="run">
+		<echo message="Executing with command line argument: ${frameString}" />
+		<java classpathref="runtime_classpath" classname="${executable.class}" fork="true" failonerror="true" args="${frameString}" />
+	</target>
+
+	<target name="clean">
+		<delete dir="${scratch.folder}" />
+		<delete dir="test-results"/>
+		<delete dir="${distribution.folder}" />
+	</target>
+
+
+</project>
