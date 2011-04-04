@@ -20,6 +20,7 @@ public class GameTest extends BaseTest {
     private static HashMap<String,Integer> bowlingStringToScore = new HashMap<String,Integer>();
     static {
         bowlingStringToScore.put("00-00-00-00-00-00-00-00-00-000", 0);
+        bowlingStringToScore.put("01-00-00-00-00-00-00-00-00-000", 1);
         bowlingStringToScore.put("45-18-90-09-54-27-36-63-90-81", 90); //all open frames of 9
         bowlingStringToScore.put("45-18-90-09-54-27-36-63-90-810", 90); //same as before, but extra zero on 10th
         bowlingStringToScore.put("0/-0/-0/-0/-0/-0/-0/-0/-0/-0/X", 110); //Spare then open frame and spare strike as the last balls
