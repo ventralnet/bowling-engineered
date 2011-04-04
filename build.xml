@@ -101,7 +101,9 @@
 
 	<target name="run">
 		<echo message="Executing with command line argument: ${frameString}" />
-		<java classpathref="runtime_classpath" classname="${executable.class}" fork="true" failonerror="true" args="${frameString}" />
+		<java classpathref="runtime_classpath" classname="${executable.class}" fork="true" failonerror="true">
+			<arg value="${frameString}"/>
+		</java>
 	</target>
 
 	<target name="clean">
